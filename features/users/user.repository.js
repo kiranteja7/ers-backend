@@ -9,6 +9,12 @@ export class UserRepository{
 
         try{
 
+        const existingUser = await userModel.findOne({email : data.email});
+
+        if(existingUser){
+            return {status : 400, message : {status : "failure", message : "User Already Exists :) Please sign in"}}
+        }
+
          const newUser = new userModel({name: data.name, email : data.email, password: data.password, type: data.type});
          await newUser.save();
 
